@@ -5,7 +5,24 @@ load_dotenv()
 
 from tools.logger import Logger
 from tools.webCrawler import WebCrawler
-from tools.urls_Generator import generate_urls_by_years
+from tools.ChromaDBHandler import ChromaDBHandler
+from tools.urls_Generator import generate_urls_by_years, generate_url_by_date
+
+import json
+from pprint import pformat
+
+# display results.
+def display_results(results, logger) -> None:
+    for i, item in enumerate(results):
+        if item.success:
+            logger.info(f"{i} - {len(results)}. Press release url: {item.url}")
+            logger.info(f"Metadata:\n%s", pformat(item.metadata))
+            logger.info("Content:")
+            logger.info(item.markdown)
+            logger.info("-"*100)
+    
+    return
+
 
 
 # main function.
@@ -18,24 +35,23 @@ def main():
     # initiate webcrawler.
     crawler = WebCrawler(logger=logger)
     logger.info("Class WebCrawler initiated.")
+    
+    # initiate chromadb.
+    DBHandler = ChromaDBHandler(logger=logger)
 
     # prepere urls for years.
-    startYear = os.getenv("start_year")
-    endYear = os.getenv("end_year")
-    logger.info(f"start year: {startYear}, end year: {endYear}")
-    
-    urls = generate_urls_by_years(startYear=int(startYear), endYear=int(endYear))
-    logger.info(f"total {len(urls)} generated.")
+    date = input("Enter the date in format '%Y%m%d' like '20250101': ")
+    url = generate_url_by_date(date=date)
+    logger.info(f"url: {url}")
     
     # start scraping
-    results = asyncio.run(crawler.concurrent_crawling(urls=urls[:2]))
+    # results = asyncio.run(crawler.concurrent_crawling(urls=urls))
+    results = asyncio.run(crawler.crawl(url=url))
+    display_results(results=results, logger=logger)
     
-    for i, result in enumerate(results):
-        logger.info(f"i={i}:")
-        for j, item in enumerate(result):
-            logger.info(f"j={j}: {item.url}")
-            logger.info(item.markdown)
-        
+    # load data to chromaDB.
+    DBHandler.add_News_to_chromaDB(results=results)
+               
     return
 
 

@@ -7,7 +7,7 @@ wheels/
 *.egg-info
 .env
 logs/
-
+chromadb_GovNews/
 
 # Virtual environments
 .venv

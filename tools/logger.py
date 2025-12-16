@@ -34,4 +34,6 @@ class Logger:
 
     def get_logger(self):
         """Return the configured logger instance."""
+        self.logger.info("Class Logger initiated.")
+        
         return self.logger

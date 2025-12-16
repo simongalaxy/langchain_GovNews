@@ -28,6 +28,7 @@ class ChromaDBHandler:
             chunk_size=300,
             chunk_overlap=10
         )
+        self.review_nos = 10
         self.logger.info("Class - ChromaDBHanlder initiated.")
     
     
@@ -72,23 +73,13 @@ class ChromaDBHandler:
         
         return
     
-    # # retrieve documents from chromaDB.
-    # def get_documents_from_chromaDB(self, keyword:str) -> List[Document]:
-    #     return self.vectorstore.similarity_search(
-    #         "", 
-    #         k=10000, 
-    #         filter={
-    #             "keyword": keyword
-    #             }
-    #         )
     
-    # # retrieve chunks from chromaDB by keyword.
-    # def retrieve_chunks_by_keyword(self, keyword: str, max_docs: int = 10000) -> List[Document]:
-    #     """Retrieve all chunks filtered by keyword (no similarity needed for full corpus analysis)."""
-    #     retriever = self.vectorstore.as_retriever(
-    #         search_type="similarity",
-    #         search_kwargs={"k": max_docs, "filter": {"keyword": keyword}}
-    #     )
-    #     chunks = retriever.invoke("")  # Empty query to get all filtered
-        
-    #     return chunks
+    # retrieve documents from chromaDB.
+    def retrieve_documents_from_chromadb(self):
+        return self.vectorstore.as_retriever(
+            search_type="mmr",
+            search_kwargs={
+                "k": self.review_nos,
+                "fetch_k": 20
+            }
+        )

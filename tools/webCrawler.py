@@ -30,7 +30,7 @@ class WebCrawler:
             target_elements=['span[id="pressrelease"]'], # For gov news.
             cache_mode=CacheMode.BYPASS
         )
-       
+        self.logger.info("Class - WebCrawler initiated.")
 
     async def concurrent_crawling(self, urls: list[str]):
         async with AsyncWebCrawler(config=self.browser_config) as crawler:

@@ -18,7 +18,7 @@ def generate_dates(year: int, month: int) -> list[str]:
     ]
 
 
-def generate_urls_by_years(year: int, month: int) -> list[str]:
+def generate_urls_by_year_month(year: int, month: int) -> list[str]:
     urls = []
     
     dates = generate_dates(year=year, month=month)

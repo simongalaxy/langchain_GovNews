@@ -1,10 +1,9 @@
-import asyncio
-from crawl4ai import AsyncWebCrawler, CrawlerRunConfig, LLMConfig, LLMExtractionStrategy, CacheMode, BrowserConfig
+from crawl4ai import AsyncWebCrawler, CrawlerRunConfig, CacheMode, BrowserConfig
 from crawl4ai.deep_crawling import BFSDeepCrawlStrategy
 from crawl4ai.content_scraping_strategy import LXMLWebScrapingStrategy
 from crawl4ai.deep_crawling.filters import URLPatternFilter, FilterChain
 
-from typing import List
+import asyncio
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -32,13 +31,6 @@ class WebCrawler:
         )
         self.logger.info("Class - WebCrawler initiated.")
 
-    async def concurrent_crawling(self, urls: list[str]):
-        async with AsyncWebCrawler(config=self.browser_config) as crawler:
-            tasks = [crawler.arun(url=url, config=self.crawl_config) for url in urls]
-            results = await asyncio.gather(*tasks)
-
-        return results
-    
     
     async def crawl(self, url: str):
         async with AsyncWebCrawler(config=self.browser_config) as crawler:
@@ -58,3 +50,10 @@ class WebCrawler:
     #         )
             
     #         return results
+    
+    # async def concurrent_crawling(self, urls: list[str]):
+    #     async with AsyncWebCrawler(config=self.browser_config) as crawler:
+    #         tasks = [crawler.arun(url=url, config=self.crawl_config) for url in urls]
+    #         results = await asyncio.gather(*tasks)
+
+    #     return results

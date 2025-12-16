@@ -1,7 +1,3 @@
-# chat_with_news_chroma_ollama.py
-# Run this file → you can now ask questions about your news articles
-
-
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.schema.runnable import RunnableParallel, RunnablePassthrough

@@ -2,12 +2,8 @@ from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from langchain_ollama.embeddings import OllamaEmbeddings
-# from tools.markdownProcesser import markdown_to_text
 
-from typing import List
-import json
 import os
-
 from dotenv import load_dotenv
 load_dotenv()
 

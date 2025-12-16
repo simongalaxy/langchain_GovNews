@@ -1,6 +1,5 @@
 import os
 import asyncio
-import json
 from pprint import pformat
 from dotenv import load_dotenv
 load_dotenv()
@@ -42,13 +41,6 @@ def main():
     
     urls = generate_urls_by_year_month(year=int(year), month=int(month))
     logger.info(f"urls for year={year}, month={month}: total {len(urls)} urls")
-    # results = asyncio.run(crawler.concurrent_crawling(urls=urls))
-    
-    # prepere urls for years.
-    # date = input("Enter the date in format '%Y%m%d' like '20250101': ")
-    # url = generate_url_by_date(date=date)
-    # logger.info(f"url: {url}")
-    
     
     for url in urls:
         # # start scraping
